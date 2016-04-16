@@ -138,7 +138,7 @@ GameObject:
   - 222: {fileID: 809163531}
   - 114: {fileID: 809163530}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CountdownText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,6 +429,7 @@ GameObject:
   - 4: {fileID: 1708476008}
   - 114: {fileID: 1708476007}
   - 114: {fileID: 1708476006}
+  - 114: {fileID: 1708476009}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -480,6 +481,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &1708476009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1708476005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0580574745964d0da01bc12885b9b11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countdownText: {fileID: 809163530}
 --- !u!4 &2131687013 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
