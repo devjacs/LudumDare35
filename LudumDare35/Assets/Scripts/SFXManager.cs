@@ -10,6 +10,8 @@ public class SFXManager : MonoBehaviour {
 	public AudioMixerSnapshot inGameSnapshot;
 	public AudioMixerSnapshot gameOverSnapshot;
 
+	public AudioSource beginningSound;
+
 	// Use this for initialization
 	void Start () {
 		menuSnapshot.TransitionTo(3.0f);
@@ -18,5 +20,9 @@ public class SFXManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void PlayBeginningSound() {
+		beginningSound.Play();
 	}
 }

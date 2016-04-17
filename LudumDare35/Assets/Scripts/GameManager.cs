@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 
 	public Text countdownText;
 
+	public SFXManager sfxManager;
 
 	// Use this for initialization
 	void Start () {
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour {
 			int materialIndex = Random.Range(0, 2);
 			person.GetComponent<PersonFeatures>().SetColour(capsuleColours[materialIndex]);
 		}
+
+		sfxManager.PlayBeginningSound();
 	}
 
 	void UpdateBadGuy() {
@@ -61,6 +64,8 @@ public class GameManager : MonoBehaviour {
 			personToKill = Random.Range(0, people.Length);
 		}
 		people[personToKill].GetComponent<PersonFeatures>().SetEnabled(false);
+
+		sfxManager.PlayBeginningSound();
 	}
 	
 	// Update is called once per frame
