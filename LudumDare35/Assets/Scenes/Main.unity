@@ -1778,6 +1778,7 @@ MonoBehaviour:
   countdownText: {fileID: 809163530}
   topLid: {fileID: 1551522142}
   bottomLid: {fileID: 1268181757}
+  menuImage: {fileID: 64612598}
   sfxManager: {fileID: 1974263667}
   musicManager: {fileID: 1974263665}
 --- !u!1 &1727646478
@@ -2345,7 +2346,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2420,7 +2421,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

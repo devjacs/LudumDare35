@@ -5,11 +5,16 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-	private int currentRound = 1;
-	private int secondsLeftInRound = 20;
+	enum GameState {GameStart, Playing, GameOver};
+
+	private int currentRound;
+	private int secondsLeftInRound;
 	private int secondsInterval = 1;
 	private int blinkInterval = 3;
-	private float nextSecond = 2;
+	private float nextSecond;
+	private int bullets;
+	private GameState currentGameState;
+	private bool initialOpenEyes = false;
 
 	//temp variables
 	public Material[] capsuleColours = new Material[2]; //red & blue
@@ -20,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public Text countdownText;
 	public GameObject topLid;
 	public GameObject bottomLid;
+	public Image menuImage;
 
 	public SFXManager sfxManager;
 	public MusicManager musicManager;
@@ -27,7 +33,8 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		musicManager.PlayMenuSnapshot();
-		RestartGame();
+		//RestartGame();
+		currentGameState = GameState.GameStart;
 		//set the players positions..
 		int radius = 5;
 		for(int i = 1; i <= 12; i++) {
@@ -40,14 +47,20 @@ public class GameManager : MonoBehaviour {
 	public void RestartGame() {
 		currentRound = 1;
 		secondsLeftInRound = 20;
-		nextSecond = 2;
+		nextSecond = Time.time + 5;
+		bullets = 2;
+		initialOpenEyes = false;
 		countdownText.text = secondsLeftInRound.ToString();
+		currentGameState = GameState.Playing;
+		sfxManager.PlayBeginningSound();
+	}
+
+	void SetColours() {
 		evilPerson = Random.Range(0, people.Length);
 		foreach (GameObject person in people) {
 			int materialIndex = Random.Range(0, 2);
 			person.GetComponent<PersonFeatures>().SetColour(capsuleColours[materialIndex]);
 		}
-
 		sfxManager.PlayBeginningSound();
 		musicManager.AdvanceMusicSnapshot();
 	}
@@ -77,35 +90,54 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (secondsLeftInRound == 0 && !badGuyKilledThisRound) {
-			if (Time.time >= nextSecond - 1.5) {
-				UpdateBadGuy();
-				badGuyKilledThisRound = true;
+
+		//check for shooting
+		if (Cardboard.SDK.Triggered || Input.GetMouseButtonUp(0)) {
+			//TODO: play a gun noise
+			if (currentGameState == GameState.GameStart || currentGameState == GameState.GameOver) {
+				BlinkClose();
+				menuImage.enabled = false;
+				RestartGame();
+			} else if (currentGameState == GameState.Playing) {
+				//shoot!
 			}
 		}
 
-		if (Time.time >= nextSecond) {
-			//update time
-			if (secondsLeftInRound == 0) {
-				//TODO: finish blink
+		if (currentGameState == GameState.Playing) {
+			//open eyes when first playing
+			if (!initialOpenEyes && Time.time >= nextSecond - 1) {
+				SetColours();
 				BlinkOpen();
-				secondsLeftInRound = 20;
-				countdownText.color = Color.white;
-				nextSecond += secondsInterval + 1;
-			} else if (secondsLeftInRound == 1) {
-				//TODO: blink
-				BlinkClose();
-				secondsLeftInRound = 0;
-				countdownText.color = Color.red;
-				nextSecond += blinkInterval;
-				badGuyKilledThisRound = false;
-				//when the screen is black
-				//UpdateBadGuy();
-			} else {
-				secondsLeftInRound--;
-				nextSecond += secondsInterval;
+				initialOpenEyes = true;
 			}
-			countdownText.text = secondsLeftInRound.ToString();
+
+			//blink & kill
+			if (secondsLeftInRound == 0 && !badGuyKilledThisRound) {
+				if (Time.time >= nextSecond - 1.5) {
+					UpdateBadGuy();
+					badGuyKilledThisRound = true;
+				}
+			}
+
+			//update the clock, check for blinks
+			if (Time.time >= nextSecond) {
+				if (secondsLeftInRound == 0) {
+					BlinkOpen();
+					secondsLeftInRound = 20;
+					countdownText.color = Color.white;
+					nextSecond += secondsInterval + 1;
+				} else if (secondsLeftInRound == 1) {
+					BlinkClose();
+					secondsLeftInRound = 0;
+					countdownText.color = Color.red;
+					nextSecond += blinkInterval;
+					badGuyKilledThisRound = false;
+				} else {
+					secondsLeftInRound--;
+					nextSecond += secondsInterval;
+				}
+				countdownText.text = secondsLeftInRound.ToString();
+			}
 		}
 	}
 
