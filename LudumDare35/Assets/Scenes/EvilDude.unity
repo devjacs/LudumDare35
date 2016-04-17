@@ -257,6 +257,14 @@ Prefab:
       propertyPath: VelocityModule.inWorldSpace
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3336744, guid: b1b796b6d8f7c472aa15efea14b9622f, type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: f2c46d058e1464d8497b23b5771a9ea7, type: 3}
+    - target: {fileID: 19815566, guid: b1b796b6d8f7c472aa15efea14b9622f, type: 2}
+      propertyPath: ShapeModule.m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: f2c46d058e1464d8497b23b5771a9ea7, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b1b796b6d8f7c472aa15efea14b9622f, type: 2}
   m_IsPrefabParent: 0
