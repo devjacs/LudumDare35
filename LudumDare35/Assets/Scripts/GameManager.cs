@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour {
 			int materialIndex = Random.Range(0, 2);
 			person.GetComponent<PersonFeatures>().SetColour(capsuleColours[materialIndex]);
 		}
+		foreach (GameObject person in people) {
+			person.GetComponent<PersonFeatures>().SetEnabled(true);
+		}
 		sfxManager.PlayBeginningSound();
 		musicManager.AdvanceMusicSnapshot();
 	}
@@ -99,8 +102,9 @@ public class GameManager : MonoBehaviour {
 		//check for shooting
 		if (Cardboard.SDK.Triggered || Input.GetMouseButtonUp(0)) {
 			//TODO: play a gun noise
-			if (currentGameState == GameState.GameStart || currentGameState == GameState.GameOver) {
+			if (currentGameState == GameState.GameStart || (currentGameState == GameState.GameOver && Time.time >= lastShot + 3)) {
 				BlinkClose();
+				initialOpenEyes = false;
 				menuImage.enabled = false;
 				RestartGame();
 			} else if (currentGameState == GameState.Playing && initialOpenEyes) {
@@ -177,6 +181,7 @@ public class GameManager : MonoBehaviour {
 							won = true;
 							currentGameState = GameState.GameOver;
 							Debug.Log("game over! you win");
+							menuImage.enabled = true;
 						} else {
 							//you killed a person
 							person.GetComponent<PersonFeatures>().SetEnabled(false);
@@ -188,6 +193,7 @@ public class GameManager : MonoBehaviour {
 				//you lose
 				currentGameState = GameState.GameOver;
 				Debug.Log("game over! you lose!");
+				menuImage.enabled = true;
 			}
 		}
 	}
