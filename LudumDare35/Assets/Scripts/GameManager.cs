@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 	private int bullets;
 	private GameState currentGameState;
 	private bool initialOpenEyes = false;
+	private bool won = false;
+	private float lastShot = 0; //this is a bit of a hack to prevent double bullets being shot at once..
 
 	//temp variables
 	public Material[] capsuleColours = new Material[2]; //red & blue
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject topLid;
 	public GameObject bottomLid;
 	public Image menuImage;
+	public Image bullet1, bullet2;
 
 	public SFXManager sfxManager;
 	public MusicManager musicManager;
@@ -49,6 +52,8 @@ public class GameManager : MonoBehaviour {
 		secondsLeftInRound = 20;
 		nextSecond = Time.time + 5;
 		bullets = 2;
+		bullet1.enabled = true;
+		bullet2.enabled = true;
 		initialOpenEyes = false;
 		countdownText.text = secondsLeftInRound.ToString();
 		currentGameState = GameState.Playing;
@@ -98,8 +103,9 @@ public class GameManager : MonoBehaviour {
 				BlinkClose();
 				menuImage.enabled = false;
 				RestartGame();
-			} else if (currentGameState == GameState.Playing) {
+			} else if (currentGameState == GameState.Playing && initialOpenEyes) {
 				//shoot!
+				Shoot();
 			}
 		}
 
@@ -149,5 +155,40 @@ public class GameManager : MonoBehaviour {
 	void BlinkOpen() {
 		topLid.gameObject.GetComponent<Animator>().Play("OpenTopLid");
 		bottomLid.gameObject.GetComponent<Animator>().Play("OpenBottomLid");
+	}
+
+	void Shoot() {
+		if (Time.time >= lastShot + 3) {
+			lastShot = Time.time;
+			bullets--;
+			if (bullets == 1) {
+				bullet1.enabled = false;
+			} else if (bullets == 0) {
+				bullet2.enabled = false;
+			}
+			Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit)) {
+				foreach (GameObject person in people) {
+					if (hit.collider.gameObject == person) {
+						//they hit a person..
+						if (person == people[evilPerson]) {
+							//you succeeded
+							won = true;
+							currentGameState = GameState.GameOver;
+							Debug.Log("game over! you win");
+						} else {
+							//you killed a person
+							person.GetComponent<PersonFeatures>().SetEnabled(false);
+						}
+					}
+				}
+			}
+			if (!won && bullets == 0) {
+				//you lose
+				currentGameState = GameState.GameOver;
+				Debug.Log("game over! you lose!");
+			}
+		}
 	}
 }

@@ -1637,6 +1637,14 @@ Prefab:
       propertyPath: m_ClearFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
   m_IsPrefabParent: 0
@@ -1779,6 +1787,8 @@ MonoBehaviour:
   topLid: {fileID: 1551522142}
   bottomLid: {fileID: 1268181757}
   menuImage: {fileID: 64612598}
+  bullet1: {fileID: 1733234928}
+  bullet2: {fileID: 1107211634}
   sfxManager: {fileID: 1974263667}
   musicManager: {fileID: 1974263665}
 --- !u!1 &1727646478
