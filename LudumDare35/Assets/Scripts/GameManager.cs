@@ -22,9 +22,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject bottomLid;
 
 	public SFXManager sfxManager;
+	public MusicManager musicManager;
 
 	// Use this for initialization
 	void Start () {
+		musicManager.PlayMenuSnapshot();
 		RestartGame();
 		//set the players positions..
 		int radius = 5;
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		sfxManager.PlayBeginningSound();
+		musicManager.AdvanceMusicSnapshot();
 	}
 
 	void UpdateBadGuy() {
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour {
 		people[personToKill].GetComponent<PersonFeatures>().SetEnabled(false);
 
 		sfxManager.PlayBeginningSound();
+		musicManager.AdvanceMusicSnapshot();
 	}
 	
 	// Update is called once per frame
