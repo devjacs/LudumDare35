@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
 	public Text countdownText;
 	public GameObject topLid;
 	public GameObject bottomLid;
-	public Image menuImage;
+	public Canvas menu;
 	public Image bullet1, bullet2;
 
 	public GameObject manPrefab, womanPrefab;
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour {
 			if (currentGameState == GameState.GameStart || (currentGameState == GameState.GameOver && Time.time >= lastShot + 3)) {
 				BlinkClose();
 				initialOpenEyes = false;
-				menuImage.enabled = false;
+				menu.enabled = false;
 				RestartGame();
 			} else if (currentGameState == GameState.Playing && initialOpenEyes) {
 				//shoot!
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour {
 							won = true;
 							currentGameState = GameState.GameOver;
 							Debug.Log("game over! you win");
-							menuImage.enabled = true;
+							menu.enabled = true;
 							musicManager.PlayGameoverSnapshot();
 						} else {
 							//you killed a person
@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour {
 				//you lose
 				currentGameState = GameState.GameOver;
 				Debug.Log("game over! you lose!");
-				menuImage.enabled = true;
+				menu.enabled = true;
 				musicManager.PlayGameoverSnapshot();
 			}
 		}
