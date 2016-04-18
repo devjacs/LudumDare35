@@ -4,21 +4,40 @@ using System.Collections;
 public class PersonFeatures : MonoBehaviour {
 
 	private Material colour;
-	private Renderer renderer;
+	//private Renderer renderer;
 	private bool enabled = true;
 
-	void Start() {
-		renderer = GetComponent<Renderer>();
-		renderer.enabled = true;
+	private Material hairColour;
+	private Material skinColour;
+	private Vector3 position;
+
+	public void SetHairColour(Material hairMaterial) {
+		this.hairColour = hairMaterial;
+		var i = this.GetComponentInChildren<Transform>().Find("Hair");
+		GameObject hair = i.gameObject;
+		if (hair != null) {
+			hair.GetComponent<Renderer>().material = hairMaterial;
+		}
 	}
 
-	public void SetColour(Material colour) {
-		this.colour = colour;
-		renderer.sharedMaterial = colour;
+	public Material GetHairColour() {
+		return this.hairColour;
 	}
 
-	public Material GetColour() {
-		return colour;
+	public Material GetSkinColour() {
+		return this.skinColour;
+	}
+
+	public void SetSkinColour(Material skinMaterial) {
+		this.skinColour = skinMaterial;
+		GameObject person = this.GetComponentInChildren<Transform>().Find("Cube").gameObject;
+		Material[] materials = person.GetComponent<Renderer>().materials;
+		for (int i = 0; i < materials.Length; i++) {
+			if (materials[i].name == "Skin (Instance)" || materials[i].name == "Material_004" || materials[i].name == "Skin") {
+				materials[i] = skinMaterial;
+			}
+		}
+		person.GetComponent<Renderer>().materials = materials;
 	}
 
 	public bool GetEnabled() {
@@ -27,6 +46,9 @@ public class PersonFeatures : MonoBehaviour {
 
 	public void SetEnabled(bool enabled) {
 		this.enabled = enabled;
-		renderer.enabled = enabled;
+		//this.GetComponentInChildren<Transform>().Find("Cube").gameObject.SetActive(enabled);
+		this.GetComponentInChildren<Transform>().Find("Cube").gameObject.SetActive(enabled);
+		//this.gameObject.SetActive(enabled);
+		//renderer.enabled = enabled;
 	}
 }
