@@ -623,33 +623,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 899618648}
---- !u!1 &1043660099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 181222, guid: 16e5bad7a1a354e3ba6c7a893d0c33ef, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1043660100}
-  m_Layer: 0
-  m_Name: 
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1043660100
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1043660099}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
 --- !u!1 &1107211632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1648,7 +1621,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1.6904895}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!108 &1688255781
 Light:
   m_ObjectHideFlags: 0
@@ -1769,11 +1742,12 @@ MonoBehaviour:
   countdownText: {fileID: 809163530}
   topLid: {fileID: 1551522142}
   bottomLid: {fileID: 1268181757}
-  menuImage: {fileID: 64612598}
+  menu: {fileID: 1169990501}
   bullet1: {fileID: 1733234928}
   bullet2: {fileID: 1107211634}
   manPrefab: {fileID: 153494, guid: 6f058f0750098460b9679cc78a9bf3d1, type: 2}
   womanPrefab: {fileID: 138870, guid: 4e6ef97e2703c4e9e962e54ab419e689, type: 2}
+  shapeShifterPrefab: {fileID: 178526, guid: 96893aeee8da54803972f931f060c470, type: 2}
   sfxManager: {fileID: 1974263667}
   musicManager: {fileID: 1974263665}
 --- !u!1 &1733234926
@@ -2404,7 +2378,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

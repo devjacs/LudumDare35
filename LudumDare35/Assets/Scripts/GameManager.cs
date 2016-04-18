@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	private bool initialOpenEyes = false;
 	private bool won = false;
 	private float lastShot = 0; //this is a bit of a hack to prevent double bullets being shot at once..
+	private bool movingEnemy = false;
 
 	//public Material[] capsuleColours = new Material[2]; //red & blue
 	public Material[] hairColours = new Material[2];
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour {
 	public Canvas menu;
 	public Image bullet1, bullet2;
 
-	public GameObject manPrefab, womanPrefab;
+	public GameObject manPrefab, womanPrefab, shapeShifterPrefab;
 
 	public SFXManager sfxManager;
 	public MusicManager musicManager;
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour {
 		currentRound = 1;
 		secondsLeftInRound = 20;
 		nextSecond = Time.time + 5;
-		bullets = 20;
+		bullets = 2;
 		bullet1.enabled = true;
 		bullet2.enabled = true;
 		initialOpenEyes = false;
@@ -107,6 +108,14 @@ public class GameManager : MonoBehaviour {
 		sfxManager.PlayBeginningSound();
 		musicManager.AdvanceMusicSnapshot();
 	}*/
+
+	void DisplayShapeShifter() {
+		Vector3 pos = people[evilPerson].transform.position;
+		Destroy(people[evilPerson]);
+		people[evilPerson] = (GameObject)Instantiate(shapeShifterPrefab, pos, Quaternion.identity);
+		people[evilPerson].transform.LookAt(2 * people[evilPerson].transform.position - player.transform.position);
+		movingEnemy = true;
+	}
 
 	void UpdateBadGuy() {
 		/******** Update Bad Guys appearance *********/
@@ -153,9 +162,20 @@ public class GameManager : MonoBehaviour {
 		sfxManager.PlayBeginningSound();
 		musicManager.AdvanceMusicSnapshot();
 	}
-	
+
+	void RemoveEnemy() {
+		Destroy(people[evilPerson]);
+	}
+
 	// Update is called once per frame
 	void Update () {
+		if (movingEnemy) {
+			people[evilPerson].transform.position = Vector3.MoveTowards(people[evilPerson].transform.position, new Vector3(player.transform.position.x, 0, player.transform.position.z), 2f * Time.deltaTime);
+			if (people[evilPerson].transform.position.x == player.transform.position.x && people[evilPerson].transform.position.z == player.transform.position.z) {
+				movingEnemy = false;
+				RemoveEnemy();
+			}
+		}
 
 		//check for shooting
 		if (Cardboard.SDK.Triggered || Input.GetMouseButtonUp(0)) {
@@ -184,6 +204,16 @@ public class GameManager : MonoBehaviour {
 				if (Time.time >= nextSecond - 1.5) {
 					UpdateBadGuy();
 					badGuyKilledThisRound = true;
+					int peopleRemaining = 0;
+					foreach (GameObject person in people) {
+						if (person != null) {
+							peopleRemaining++;
+						}
+					}
+					if (peopleRemaining == 2) {
+						BlinkOpen();
+						GameOver();
+					}
 				}
 			}
 
@@ -209,6 +239,15 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	void GameOver() {
+		DisplayShapeShifter();
+		//you lose
+		currentGameState = GameState.GameOver;
+		Debug.Log("game over! you lose!");
+		menu.enabled = true;
+		musicManager.PlayGameoverSnapshot();
+	}
+
 	void BlinkClose() {
 		topLid.gameObject.GetComponent<Animator>().Play("CloseTopLid");
 		bottomLid.gameObject.GetComponent<Animator>().Play("CloseBottomLid");
@@ -228,6 +267,7 @@ public class GameManager : MonoBehaviour {
 				bullet1.enabled = false;
 			} else if (bullets == 0) {
 				bullet2.enabled = false;
+				won = false;
 			}
 			Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 			RaycastHit hit;
@@ -254,10 +294,7 @@ public class GameManager : MonoBehaviour {
 			}
 			if (!won && bullets == 0) {
 				//you lose
-				currentGameState = GameState.GameOver;
-				Debug.Log("game over! you lose!");
-				menu.enabled = true;
-				musicManager.PlayGameoverSnapshot();
+				GameOver();
 			}
 		}
 	}
