@@ -11,6 +11,7 @@ public class SFXManager : MonoBehaviour {
 	public AudioMixerSnapshot gameOverSnapshot;
 
 	public AudioSource beginningSound;
+	public AudioSource gunshotSound;
 
 	// Use this for initialization
 	void Start () {
@@ -24,5 +25,9 @@ public class SFXManager : MonoBehaviour {
 
 	public void PlayBeginningSound() {
 		beginningSound.Play();
+	}
+
+	public void PlayGunshot() {
+		gunshotSound.Play();
 	}
 }

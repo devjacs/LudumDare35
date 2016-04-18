@@ -159,7 +159,6 @@ public class GameManager : MonoBehaviour {
 
 		//check for shooting
 		if (Cardboard.SDK.Triggered || Input.GetMouseButtonUp(0)) {
-			//TODO: play a gun noise
 			if (currentGameState == GameState.GameStart || (currentGameState == GameState.GameOver && Time.time >= lastShot + 3)) {
 				BlinkClose();
 				initialOpenEyes = false;
@@ -222,6 +221,7 @@ public class GameManager : MonoBehaviour {
 
 	void Shoot() {
 		if (Time.time >= lastShot + 3) {
+			sfxManager.PlayGunshot();
 			lastShot = Time.time;
 			bullets--;
 			if (bullets == 1) {
