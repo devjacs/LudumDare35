@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
 			int skinColour = Random.Range(0, skinColours.Length);
 			people[i].GetComponent<PersonFeatures>().SetSkinColour(skinColours[skinColour]);
 
-			people[i].GetComponent<PersonFeatures>().SetEnabled(true);
+			//people[i].GetComponent<PersonFeatures>().SetEnabled(true);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
 		currentRound = 1;
 		secondsLeftInRound = 20;
 		nextSecond = Time.time + 5;
-		bullets = 2;
+		bullets = 20;
 		bullet1.enabled = true;
 		bullet2.enabled = true;
 		initialOpenEyes = false;
@@ -232,8 +232,10 @@ public class GameManager : MonoBehaviour {
 			Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)) {
+				Destroy(hit.collider.gameObject);
 				foreach (GameObject person in people) {
 					if (hit.collider.gameObject == person) {
+						Debug.Log("you hit someone");
 						//they hit a person..
 						if (person == people[evilPerson]) {
 							//you succeeded
@@ -244,7 +246,8 @@ public class GameManager : MonoBehaviour {
 							musicManager.PlayGameoverSnapshot();
 						} else {
 							//you killed a person
-							person.GetComponent<PersonFeatures>().SetEnabled(false);
+							//person.GetComponent<PersonFeatures>().SetEnabled(false);
+							Destroy(person);
 						}
 					}
 				}

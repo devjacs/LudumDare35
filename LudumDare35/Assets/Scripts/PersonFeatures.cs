@@ -40,7 +40,7 @@ public class PersonFeatures : MonoBehaviour {
 		person.GetComponent<Renderer>().materials = materials;
 	}
 
-	public bool GetEnabled() {
+	/*public bool GetEnabled() {
 		return enabled;
 	}
 
@@ -50,5 +50,5 @@ public class PersonFeatures : MonoBehaviour {
 		this.GetComponentInChildren<Transform>().Find("Cube").gameObject.SetActive(enabled);
 		//this.gameObject.SetActive(enabled);
 		//renderer.enabled = enabled;
-	}
+	}*/
 }
