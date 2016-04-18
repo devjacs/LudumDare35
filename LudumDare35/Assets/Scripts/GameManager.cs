@@ -73,8 +73,6 @@ public class GameManager : MonoBehaviour {
 			people[i].GetComponent<PersonFeatures>().SetSkinColour(skinColours[skinColour]);
 
 			people[i].GetComponent<PersonFeatures>().SetEnabled(true);
-			sfxManager.PlayBeginningSound();
-			musicManager.AdvanceMusicSnapshot();
 		}
 	}
 
@@ -94,6 +92,7 @@ public class GameManager : MonoBehaviour {
 		}
 		currentGameState = GameState.Playing;
 		sfxManager.PlayBeginningSound();
+		musicManager.AdvanceMusicSnapshot();
 	}
 
 	/*void SetColours() {
@@ -242,6 +241,7 @@ public class GameManager : MonoBehaviour {
 							currentGameState = GameState.GameOver;
 							Debug.Log("game over! you win");
 							menuImage.enabled = true;
+							musicManager.PlayGameoverSnapshot();
 						} else {
 							//you killed a person
 							person.GetComponent<PersonFeatures>().SetEnabled(false);
@@ -254,6 +254,7 @@ public class GameManager : MonoBehaviour {
 				currentGameState = GameState.GameOver;
 				Debug.Log("game over! you lose!");
 				menuImage.enabled = true;
+				musicManager.PlayGameoverSnapshot();
 			}
 		}
 	}
